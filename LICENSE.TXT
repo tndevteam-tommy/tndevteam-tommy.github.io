@@ -1,0 +1,66 @@
+END USER LICENSE AGREEMENT
+
+Copyright Thomas Nifong 2025.
+
+1. ACCEPTANCE OF TERMS
+By accessing, downloading, installing, or using this software ("Software"), you agree to be bound by the terms and conditions of this End User License Agreement ("EULA"). If you do not agree to these terms, do not use the Software.
+
+2. GRANT OF LICENSE
+Subject to your compliance with this EULA, we grant you a limited, non-exclusive, non-transferable, revocable license to use the Software for educational, research, and discovery purposes only.
+
+3. EDUCATIONAL AND RESEARCH PURPOSE
+The Software is designed and intended solely for educational, research, and discovery purposes. It is provided as a tool for learning about web search techniques, digital discovery, and information gathering methodologies. Users acknowledge that the Software is not intended for commercial production use without explicit written permission.
+
+4. ACCEPTABLE USE POLICY
+You agree to use the Software only for lawful purposes and in accordance with this EULA. You specifically agree NOT to:
+  - Use the Software for any illegal or unauthorized purpose
+  - Violate any applicable laws, regulations, or third-party rights
+  - Infringe upon intellectual property rights
+  - Use the Software to access, collect, or store personal information without proper authorization
+  - Use the Software to harm, harass, or defame any individual or entity
+  - Attempt to reverse engineer, decompile, or disassemble the Software
+  - Distribute, sublicense, or transfer the Software to third parties
+
+5. DISCLAIMER OF WARRANTIES
+THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. WE EXPRESSLY DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO:
+  - WARRANTIES OF MERCHANTABILITY
+  - FITNESS FOR A PARTICULAR PURPOSE
+  - NON-INFRINGEMENT
+  - ACCURACY OR COMPLETENESS OF RESULTS
+  - UNINTERRUPTED OR ERROR-FREE OPERATION
+
+6. LIMITATION OF LIABILITY
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL WE BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:
+  - LOSS OF PROFITS, DATA, OR USE
+  - BUSINESS INTERRUPTION
+  - COMPUTER FAILURE OR MALFUNCTION
+  - ANY DAMAGES RESULTING FROM USE OF THE SOFTWARE
+OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT PAID BY YOU FOR THE SOFTWARE, IF ANY.
+
+7. USER RESPONSIBILITIES
+You acknowledge and agree that:
+  - You are solely responsible for your use of the Software
+  - You will comply with all applicable laws and regulations
+  - You will respect the terms of service of any websites or services accessed through the Software
+  - You will not hold us responsible for any consequences of your use of the Software
+  - You will indemnify and hold us harmless from any claims arising from your use of the Software
+
+8. INTELLECTUAL PROPERTY
+The Software and all related content, including but not limited to text, graphics, logos, and software code, are owned by us and are protected by copyright, trademark, and other intellectual property laws. This EULA does not grant you any rights to our intellectual property beyond the limited license described herein.
+
+9. TERMINATION
+This license is effective until terminated. We may terminate this license at any time if you fail to comply with any term or condition of this EULA. Upon termination, you must cease all use of the Software and destroy all copies.
+
+10. GOVERNING LAW
+This EULA shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.
+
+11. SEVERABILITY
+If any provision of this EULA is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that this EULA will otherwise remain in full force and effect.
+
+12. ENTIRE AGREEMENT
+This EULA constitutes the entire agreement between you and us regarding the Software and supersedes all prior or contemporaneous communications and proposals, whether oral or written.
+
+13. CONTACT INFORMATION
+If you have any questions about this EULA, please contact us through the appropriate channels provided with the Software.
+
+BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS EULA. 
