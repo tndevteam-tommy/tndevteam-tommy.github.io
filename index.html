@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoogHacks - Search</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- EULA Modal -->
+    <div id="eulaModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>End User License Agreement</h2>
+            <div class="eula-text">
+                <p><strong>END USER LICENSE AGREEMENT</strong></p>
+                <p><strong>Effective Date:</strong> <span id="eulaDate"></span></p>
+                
+                <h3>1. ACCEPTANCE OF TERMS</h3>
+                <p>By accessing, downloading, installing, or using this software ("Software"), you agree to be bound by the terms and conditions of this End User License Agreement ("EULA"). If you do not agree to these terms, do not use the Software.</p>
+                
+                <h3>2. GRANT OF LICENSE</h3>
+                <p>Subject to your compliance with this EULA, we grant you a limited, non-exclusive, non-transferable, revocable license to use the Software for educational, research, and discovery purposes only.</p>
+                
+                <h3>3. EDUCATIONAL AND RESEARCH PURPOSE</h3>
+                <p>The Software is designed and intended solely for educational, research, and discovery purposes. It is provided as a tool for learning about web search techniques, digital discovery, and information gathering methodologies. Users acknowledge that the Software is not intended for commercial production use without explicit written permission.</p>
+                
+                <h3>4. ACCEPTABLE USE POLICY</h3>
+                <p>You agree to use the Software only for lawful purposes and in accordance with this EULA. You specifically agree NOT to:</p>
+                <ul>
+                    <li>Use the Software for any illegal or unauthorized purpose</li>
+                    <li>Violate any applicable laws, regulations, or third-party rights</li>
+                    <li>Infringe upon intellectual property rights</li>
+                    <li>Use the Software to access, collect, or store personal information without proper authorization</li>
+                    <li>Use the Software to harm, harass, or defame any individual or entity</li>
+                    <li>Attempt to reverse engineer, decompile, or disassemble the Software</li>
+                    <li>Distribute, sublicense, or transfer the Software to third parties</li>
+                </ul>
+                
+                <h3>5. DISCLAIMER OF WARRANTIES</h3>
+                <p>THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. WE EXPRESSLY DISCLAIM ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO:</p>
+                <ul>
+                    <li>WARRANTIES OF MERCHANTABILITY</li>
+                    <li>FITNESS FOR A PARTICULAR PURPOSE</li>
+                    <li>NON-INFRINGEMENT</li>
+                    <li>ACCURACY OR COMPLETENESS OF RESULTS</li>
+                    <li>UNINTERRUPTED OR ERROR-FREE OPERATION</li>
+                </ul>
+                
+                <h3>6. LIMITATION OF LIABILITY</h3>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL WE BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO:</p>
+                <ul>
+                    <li>LOSS OF PROFITS, DATA, OR USE</li>
+                    <li>BUSINESS INTERRUPTION</li>
+                    <li>COMPUTER FAILURE OR MALFUNCTION</li>
+                    <li>ANY DAMAGES RESULTING FROM USE OF THE SOFTWARE</li>
+                </ul>
+                <p>OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT PAID BY YOU FOR THE SOFTWARE, IF ANY.</p>
+                
+                <h3>7. USER RESPONSIBILITIES</h3>
+                <p>You acknowledge and agree that:</p>
+                <ul>
+                    <li>You are solely responsible for your use of the Software</li>
+                    <li>You will comply with all applicable laws and regulations</li>
+                    <li>You will respect the terms of service of any websites or services accessed through the Software</li>
+                    <li>You will not hold us responsible for any consequences of your use of the Software</li>
+                    <li>You will indemnify and hold us harmless from any claims arising from your use of the Software</li>
+                </ul>
+                
+                <h3>8. INTELLECTUAL PROPERTY</h3>
+                <p>The Software and all related content, including but not limited to text, graphics, logos, and software code, are owned by us and are protected by copyright, trademark, and other intellectual property laws. This EULA does not grant you any rights to our intellectual property beyond the limited license described herein.</p>
+                
+                <h3>9. TERMINATION</h3>
+                <p>This license is effective until terminated. We may terminate this license at any time if you fail to comply with any term or condition of this EULA. Upon termination, you must cease all use of the Software and destroy all copies.</p>
+                
+                <h3>10. GOVERNING LAW</h3>
+                <p>This EULA shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.</p>
+                
+                <h3>11. SEVERABILITY</h3>
+                <p>If any provision of this EULA is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that this EULA will otherwise remain in full force and effect.</p>
+                
+                <h3>12. ENTIRE AGREEMENT</h3>
+                <p>This EULA constitutes the entire agreement between you and us regarding the Software and supersedes all prior or contemporaneous communications and proposals, whether oral or written.</p>
+                
+                <h3>13. CONTACT INFORMATION</h3>
+                <p>If you have any questions about this EULA, please contact us through the appropriate channels provided with the Software.</p>
+                
+                <p><strong>BY CLICKING "ACCEPT," YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS EULA.</strong></p>
+            </div>
+            <div class="modal-buttons">
+                <button id="acceptEula" class="btn btn-accept">Accept</button>
+                <button id="declineEula" class="btn btn-decline">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-container">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="resources/images/googhacks_logo.png" alt="GoogHacks Logo" class="logo">
+            </div>
+            
+            <!-- Search Form -->
+            <form class="search-form" id="searchForm">
+                <div class="search-input-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search GoogHacks..." autocomplete="off" required>
+                    <div class="search-controls">
+                        <select class="search-type-dropdown" id="searchType">
+                            <option value="Music">Music</option>
+                            <option value="Images">Images</option>
+                            <option value="Archives">Archives</option>
+                            <option value="PDFs">PDFs</option>
+                        </select>
+                        <button type="submit" class="search-button">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <script>
+            // EULA Cookie Management
+            function setEulaCookie(accepted) {
+                const now = new Date();
+                const cookieData = {
+                    accepted: accepted,
+                    timestamp: now.toISOString(),
+                    ip: 'client-side' // Will be set by server
+                };
+                document.cookie = `eula_accepted=${JSON.stringify(cookieData)}; expires=${new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000).toUTCString()}; path=/`;
+            }
+
+            function getEulaCookie() {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const [name, value] = cookie.trim().split('=');
+                    if (name === 'eula_accepted') {
+                        try {
+                            return JSON.parse(decodeURIComponent(value));
+                        } catch (e) {
+                            return null;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            function showEulaModal() {
+                document.getElementById('eulaModal').style.display = 'flex';
+            }
+
+            function hideEulaModal() {
+                document.getElementById('eulaModal').style.display = 'none';
+            }
+
+            // Check EULA status on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                // Set EULA date
+                document.getElementById('eulaDate').textContent = new Date().toLocaleDateString();
+                const eulaData = getEulaCookie();
+                if (!eulaData || !eulaData.accepted) {
+                    showEulaModal();
+                }
+            });
+
+            // EULA Button Handlers
+            document.getElementById('acceptEula').addEventListener('click', function() {
+                setEulaCookie(true);
+                hideEulaModal();
+                // Send acceptance to server to record IP
+                fetch('/eula-accept', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({accepted: true})
+                });
+            });
+
+            document.getElementById('declineEula').addEventListener('click', function() {
+                window.location.href = 'https://www.google.com';
+            });
+
+            // Search form handler
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userInput = document.getElementById('searchInput').value.trim();
+                const searchType = document.getElementById('searchType').value;
+                if (!userInput) return;
+                fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `searchType=${encodeURIComponent(searchType)}&userInput=${encodeURIComponent(userInput)}`
+                })
+                .then(response => response.text())
+                .then(result => {
+                    console.log('Search submitted:', result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+            </script>
+        </div>
+    </div>
+    <!-- Bottom Toolbar -->
+    <div class="bottom-toolbar">
+        <div class="toolbar-icons">
+            <a href="https://www.instagram.com/tndevteam/" target="_blank" title="Instagram" class="toolbar-ascii">&#x1F4F7;</a>
+            <a href="https://tndevteam.blogspot.com/" target="_blank" title="Blog" class="toolbar-ascii">&#x1F4D1;</a>
+            <a href="mailto:tndevteam@gmail.com" title="Email" class="toolbar-ascii">&#x2709;&#xFE0F;</a>
+        </div>
+    </div>
+</body>
+</html> 

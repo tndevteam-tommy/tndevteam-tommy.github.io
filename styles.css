@@ -1,0 +1,376 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1b2234;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.search-form {
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 8px 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.search-input-container:focus-within {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    padding: 12px 0;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.search-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-type-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-type-dropdown:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.search-type-dropdown option {
+    background: #1b2234;
+    color: white;
+}
+
+.search-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.search-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* EULA Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: #1b2234;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 24px;
+}
+
+.eula-text {
+    max-height: 50vh;
+    overflow-y: auto;
+    margin-bottom: 25px;
+    padding-right: 10px;
+    line-height: 1.6;
+}
+
+.eula-text h3 {
+    color: #fff;
+    margin: 20px 0 10px 0;
+    font-size: 18px;
+}
+
+.eula-text p {
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+}
+
+.eula-text strong {
+    color: #fff;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.btn-accept {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+}
+
+.btn-accept:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-decline {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    color: white;
+}
+
+.btn-decline:hover {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+}
+
+/* Scrollbar styling for EULA text */
+.eula-text::-webkit-scrollbar {
+    width: 8px;
+}
+
+.eula-text::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.eula-text::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.eula-text::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .logo {
+        max-width: 250px;
+    }
+    
+    .search-input-container {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 20px;
+    }
+    
+    .search-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .search-type-dropdown {
+        flex: 1;
+        margin-right: 8px;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        padding: 20px;
+        max-height: 90vh;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-width: 200px;
+    }
+    
+    .search-input-container {
+        padding: 12px;
+    }
+    
+    .search-controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .search-type-dropdown {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .modal-content {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .eula-text {
+        font-size: 13px;
+    }
+} 
+
+/* Bottom Toolbar Styles */
+.bottom-toolbar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(27, 34, 52, 0.98);
+    border-top: 1.5px solid rgba(255,255,255,0.08);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
+    z-index: 2000;
+    padding: 8px 0;
+}
+.toolbar-icons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-right: 32px;
+}
+.toolbar-icon {
+    width: 32px;
+    height: 32px;
+    filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+    opacity: 0.85;
+    transition: opacity 0.2s, transform 0.2s;
+    cursor: pointer;
+    display: block;
+    object-fit: contain;
+}
+.toolbar-icon:hover {
+    opacity: 1;
+    transform: scale(1.12) translateY(-2px);
+}
+
+.toolbar-ascii {
+    font-size: 2rem;
+    color: #fff;
+    opacity: 0.85;
+    margin-left: 8px;
+    margin-right: 8px;
+    transition: opacity 0.2s, transform 0.2s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+}
+.toolbar-ascii:hover {
+    opacity: 1;
+    transform: scale(1.12) translateY(-2px);
+    color: #ffd700;
+}
+
+@media (max-width: 600px) {
+    .toolbar-icons {
+        gap: 16px;
+        padding-right: 10px;
+    }
+    .toolbar-icon {
+        width: 26px;
+        height: 26px;
+    }
+    .bottom-toolbar {
+        padding: 4px 0;
+    }
+} 
