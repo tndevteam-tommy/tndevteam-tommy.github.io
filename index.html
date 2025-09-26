@@ -168,14 +168,6 @@
             document.getElementById('acceptEula').addEventListener('click', function() {
                 setEulaCookie(true);
                 hideEulaModal();
-                // Send acceptance to server to record IP
-                fetch('/eula-accept', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({accepted: true})
-                });
             });
 
             document.getElementById('declineEula').addEventListener('click', function() {
@@ -188,20 +180,17 @@
                 const userInput = document.getElementById('searchInput').value.trim();
                 const searchType = document.getElementById('searchType').value;
                 if (!userInput) return;
-                fetch('/search', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `searchType=${encodeURIComponent(searchType)}&userInput=${encodeURIComponent(userInput)}`
-                })
-                .then(response => response.text())
-                .then(result => {
-                    console.log('Search submitted:', result);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                // Query templates
+                const templates = {
+                    'Music': 'intitle:"index of" "parent directory" <keyword> "mp3" -html -htm -php -asp -jsp',
+                    'Images': 'intitle:"index of" "parent directory" <keyword> "jpg" "png" "gif" -html -htm -php -asp -jsp',
+                    'Archives': 'intitle:"index of" "parent directory" <keyword> "zip" "rar" "7z" "tar" "gz" -html -htm -php -asp -jsp',
+                    'PDFs': 'intitle:"index of" "parent directory" <keyword> "pdf" -html -htm -php -asp -jsp'
+                };
+                let template = templates[searchType] || '<keyword>';
+                let query = template.replace('<keyword>', userInput);
+                let url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+                window.open(url, '_blank');
             });
             </script>
         </div>
