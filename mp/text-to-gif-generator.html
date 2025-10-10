@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Animated GIF Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 2px solid #ddd;
+            margin: 10px 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text to Animated GIF Generator</h1>
+        
+        <div>
+            <label>Text to animate:</label>
+            <textarea id="textInput" rows="3" placeholder="Enter text to animate...">Hello World!</textarea>
+        </div>
+        
+        <div>
+            <label>Animation Type:</label>
+            <select id="animationType">
+                <option value="typing">Typing Effect</option>
+                <option value="fade">Fade In/Out</option>
+                <option value="slide">Slide In</option>
+                <option value="color">Color Change</option>
+                <option value="bounce">Bounce Effect</option>
+            </select>
+        </div>
+        
+        <div>
+            <label>Canvas Size:</label>
+            <input type="number" id="canvasWidth" value="400" placeholder="Width">
+            <input type="number" id="canvasHeight" value="200" placeholder="Height">
+        </div>
+        
+        <div>
+            <label>Frame Count:</label>
+            <input type="number" id="frameCount" value="20" min="5" max="50">
+        </div>
+        
+        <div>
+            <label>Frame Delay (ms):</label>
+            <input type="number" id="frameDelay" value="200" min="50" max="1000">
+        </div>
+        
+        <button onclick="previewAnimation()">Preview Animation</button>
+        <button onclick="generateGIF()">Generate GIF</button>
+        
+        <canvas id="previewCanvas" width="400" height="200"></canvas>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <!-- Include gif.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+    
+    <script>
+        let animationFrames = [];
+        
+        function previewAnimation() {
+            const canvas = document.getElementById('previewCanvas');
+            const ctx = canvas.getContext('2d');
+            const text = document.getElementById('textInput').value;
+            const animationType = document.getElementById('animationType').value;
+            const frameCount = parseInt(document.getElementById('frameCount').value);
+            
+            canvas.width = parseInt(document.getElementById('canvasWidth').value);
+            canvas.height = parseInt(document.getElementById('canvasHeight').value);
+            
+            animationFrames = [];
+            
+            for (let i = 0; i < frameCount; i++) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Set background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw text based on animation type
+                drawAnimatedText(ctx, text, i, frameCount, animationType, canvas.width, canvas.height);
+                
+                // Store frame data
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                animationFrames.push(imageData);
+            }
+            
+            // Start preview animation
+            animatePreview();
+        }
+        
+        function drawAnimatedText(ctx, text, frame, totalFrames, animationType, width, height) {
+            const progress = frame / (totalFrames - 1);
+            
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            switch (animationType) {
+                case 'typing':
+                    const charsToShow = Math.floor(progress * text.length);
+                    const visibleText = text.substring(0, charsToShow);
+                    ctx.fillStyle = '#333333';
+                    ctx.fillText(visibleText, width / 2, height / 2);
+                    break;
+                    
+                case 'fade':
+                    const alpha = Math.sin(progress * Math.PI);
+                    ctx.fillStyle = `rgba(51, 51, 51, ${alpha})`;
+                    ctx.fillText(text, width / 2, height / 2);
+                    break;
+                    
+                case 'slide':
+                    const slideX = (progress - 0.5) * width * 2;
+                    ctx.fillStyle = '#333333';
+                    ctx.fillText(text, width / 2 + slideX, height / 2);
+                    break;
+                    
+                case 'color':
+                    const hue = progress * 360;
+                    ctx.fillStyle = `hsl(${hue}, 70%, 50%)`;
+                    ctx.fillText(text, width / 2, height / 2);
+                    break;
+                    
+                case 'bounce':
+                    const bounceY = Math.abs(Math.sin(progress * Math.PI * 4)) * 20;
+                    ctx.fillStyle = '#333333';
+                    ctx.fillText(text, width / 2, height / 2 - bounceY);
+                    break;
+            }
+        }
+        
+        function animatePreview() {
+            const canvas = document.getElementById('previewCanvas');
+            const ctx = canvas.getContext('2d');
+            let currentFrame = 0;
+            
+            function animate() {
+                if (animationFrames.length > 0) {
+                    ctx.putImageData(animationFrames[currentFrame], 0, 0);
+                    currentFrame = (currentFrame + 1) % animationFrames.length;
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+        
+        function generateGIF() {
+            if (animationFrames.length === 0) {
+                alert('Please preview the animation first!');
+                return;
+            }
+            
+            const canvas = document.getElementById('previewCanvas');
+            const frameDelay = parseInt(document.getElementById('frameDelay').value);
+            
+            const gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: canvas.width,
+                height: canvas.height
+            });
+            
+            // Add frames to GIF
+            animationFrames.forEach((frameData, index) => {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.putImageData(frameData, 0, 0);
+                
+                gif.addFrame(tempCtx, {copy: true, delay: frameDelay});
+            });
+            
+            gif.on('finished', function(blob) {
+                const resultDiv = document.getElementById('result');
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(blob);
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(blob);
+                downloadLink.download = 'animated_text.gif';
+                downloadLink.textContent = 'Download GIF';
+                downloadLink.style.display = 'block';
+                downloadLink.style.marginTop = '10px';
+                
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(img);
+                resultDiv.appendChild(downloadLink);
+            });
+            
+            gif.render();
+        }
+        
+        // Initialize with default preview
+        window.onload = function() {
+            previewAnimation();
+        };
+    </script>
+</body>
+</html>

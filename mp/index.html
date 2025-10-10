@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MP Animation">
     <title>MP Animation Full Screen</title>
     <style>
         * {
@@ -45,40 +48,14 @@
             object-position: center;
         }
 
-        .fullscreen-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50px;
-            height: 50px;
-            background: transparent;
-            cursor: pointer;
-            z-index: 10;
-            border: none;
-            outline: none;
-        }
-
-        .fullscreen-overlay:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .fullscreen-overlay:active {
-            background: rgba(255, 255, 255, 0.2);
-        }
 
         /* Mobile-specific adjustments */
         @media (max-width: 768px) {
-            .fullscreen-overlay {
-                width: 60px;
-                height: 60px;
-            }
+            /* Mobile-specific styles can be added here if needed */
         }
 
         @media (max-width: 480px) {
-            .fullscreen-overlay {
-                width: 70px;
-                height: 70px;
-            }
+            /* Small mobile-specific styles can be added here if needed */
         }
 
         /* Landscape orientation adjustments */
@@ -101,98 +78,78 @@
         <div class="gif-container">
             <img src="images/mp_anim_final.gif" alt="MP Animation" class="gif-image" id="gifImage">
         </div>
-        <button class="fullscreen-overlay" id="fullscreenBtn" title="Click to enter fullscreen"></button>
     </div>
 
     <script>
-        // Cross-browser fullscreen functionality
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const container = document.querySelector('.container');
-
-        // Function to enter fullscreen
-        function enterFullscreen() {
-            const element = container;
-            
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.webkitRequestFullscreen) { // Safari
-                element.webkitRequestFullscreen();
-            } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen();
-            } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen();
-            }
-        }
-
-        // Function to exit fullscreen
-        function exitFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { // Safari
-                document.webkitExitFullscreen();
-            } else if (document.mozCancelFullScreen) { // Firefox
-                document.mozCancelFullScreen();
-            } else if (document.msExitFullscreen) { // IE/Edge
-                document.msExitFullscreen();
-            }
-        }
-
-        // Check if currently in fullscreen
-        function isFullscreen() {
-            return !!(document.fullscreenElement || 
-                     document.webkitFullscreenElement || 
-                     document.mozFullScreenElement || 
-                     document.msFullscreenElement);
-        }
-
-        // Event listener for fullscreen button
-        fullscreenBtn.addEventListener('click', function() {
-            if (isFullscreen()) {
-                exitFullscreen();
-            } else {
-                enterFullscreen();
-            }
-        });
-
-        // Handle fullscreen change events
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-        function handleFullscreenChange() {
-            if (isFullscreen()) {
-                console.log('Entered fullscreen mode');
-                // Optional: Add any fullscreen-specific styling or behavior
-            } else {
-                console.log('Exited fullscreen mode');
-                // Optional: Add any exit-fullscreen-specific styling or behavior
-            }
-        }
-
-        // Handle keyboard shortcuts for fullscreen
-        document.addEventListener('keydown', function(event) {
-            // F11 key for fullscreen toggle
-            if (event.key === 'F11') {
-                event.preventDefault();
-                if (isFullscreen()) {
-                    exitFullscreen();
-                } else {
-                    enterFullscreen();
-                }
-            }
-            
-            // Escape key to exit fullscreen
-            if (event.key === 'Escape' && isFullscreen()) {
-                exitFullscreen();
-            }
-        });
-
-        // Ensure GIF plays automatically and loops
+        // GIF functionality
         const gifImage = document.getElementById('gifImage');
+        const container = document.querySelector('.container');
         
+        // Timestamp overlay functionality
+        function addTimestampOverlay() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size to match GIF
+            canvas.width = gifImage.naturalWidth || gifImage.width;
+            canvas.height = gifImage.naturalHeight || gifImage.height;
+            
+            // Draw GIF onto canvas
+            ctx.drawImage(gifImage, 0, 0, canvas.width, canvas.height);
+            
+            // Generate timestamp in MM/DD/YYYY HH:MM AM/PM format
+            const now = new Date();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            const hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12; // Convert to 12-hour format
+            const timestamp = `${month}/${day}/${year} 02:00 AM`;
+            
+            // Add timestamp overlay
+            const fontSize = Math.max(12, canvas.width / 30); // Responsive font size
+            ctx.font = `bold ${fontSize}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            
+            // Measure text for background
+            const textMetrics = ctx.measureText(timestamp);
+            const textWidth = textMetrics.width;
+            const textHeight = fontSize;
+            const padding = 8;
+            
+            // Position at bottom center
+            const x = canvas.width / 2;
+            const y = canvas.height - padding;
+            
+            // Draw background rectangle
+            const bgWidth = textWidth + (padding * 2);
+            const bgHeight = textHeight + (padding * 2);
+            const bgX = x - (bgWidth / 2);
+            const bgY = y - textHeight - padding;
+            
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
+            
+            // Draw timestamp text
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(timestamp, x, y);
+            
+            // Replace the GIF with the canvas
+            const timestampedImage = new Image();
+            timestampedImage.onload = function() {
+                gifImage.src = timestampedImage.src;
+            };
+            timestampedImage.src = canvas.toDataURL();
+        }
+        
+        // Add timestamp when GIF loads
         gifImage.addEventListener('load', function() {
             console.log('GIF loaded successfully');
+            // Uncomment the line below to automatically add timestamp
+            // addTimestampOverlay();
         });
 
         gifImage.addEventListener('error', function() {
@@ -227,7 +184,9 @@
             container.style.height = '100vh';
         });
 
+        // Log device information for debugging
         console.log('MP Animation page loaded successfully');
+        console.log('User Agent:', navigator.userAgent);
     </script>
 </body>
 </html>
