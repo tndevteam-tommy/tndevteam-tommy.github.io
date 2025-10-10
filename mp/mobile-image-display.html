@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Image Display</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .date-overlay {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .moving-image {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            z-index: 5;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .moving-image:nth-child(2) {
+            animation-delay: -2s;
+            animation-duration: 8s;
+        }
+
+        .moving-image:nth-child(3) {
+            animation-delay: -4s;
+            animation-duration: 7s;
+        }
+
+        .moving-image:nth-child(4) {
+            animation-delay: -1s;
+            animation-duration: 9s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(0px) translateX(20px);
+            }
+            75% {
+                transform: translateY(20px) translateX(10px);
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .date-overlay {
+                font-size: 16px;
+                padding: 8px 16px;
+                top: 15px;
+            }
+            
+            .moving-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .date-overlay {
+                font-size: 14px;
+                padding: 6px 12px;
+                top: 10px;
+            }
+            
+            .moving-image {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .date-overlay {
+                top: 10px;
+                font-size: 14px;
+                padding: 5px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <!-- Main background image -->
+        <img src="images/IMG_4837.png" alt="Background Image" class="main-image" id="mainImage">
+        
+        <!-- Date overlay -->
+        <div class="date-overlay" id="dateOverlay">
+            Loading date...
+        </div>
+        
+        <!-- Moving overlay images -->
+        <img src="images/IMG_4838.png" alt="Moving Image 1" class="moving-image" style="top: 20%; left: 10%;">
+        <img src="images/IMG_4839.png" alt="Moving Image 2" class="moving-image" style="top: 60%; left: 80%;">
+        <img src="images/IMG_4840.png" alt="Moving Image 3" class="moving-image" style="top: 40%; left: 70%;">
+        <img src="images/IMG_4842.png" alt="Moving Image 4" class="moving-image" style="top: 80%; left: 20%;">
+    </div>
+
+    <script>
+        // Function to update the date display
+        function updateDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateString = now.toLocaleDateString('en-US', options);
+            document.getElementById('dateOverlay').textContent = dateString;
+        }
+
+        // Function to add random movement to overlay images
+        function addRandomMovement() {
+            const movingImages = document.querySelectorAll('.moving-image');
+            
+            movingImages.forEach((img, index) => {
+                // Set random initial positions
+                const randomTop = Math.random() * 80 + 10; // 10% to 90%
+                const randomLeft = Math.random() * 80 + 10; // 10% to 90%
+                
+                img.style.top = randomTop + '%';
+                img.style.left = randomLeft + '%';
+                
+                // Add random animation delay
+                img.style.animationDelay = '-' + (Math.random() * 6) + 's';
+                img.style.animationDuration = (Math.random() * 4 + 5) + 's';
+            });
+        }
+
+        // Function to cycle through different background images
+        function cycleBackgroundImage() {
+            const images = [
+                'images/IMG_4837.png',
+                'images/IMG_4838.png',
+                'images/IMG_4839.png',
+                'images/IMG_4840.png',
+                'images/IMG_4842.png'
+            ];
+            
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % images.length;
+                document.getElementById('mainImage').src = images[currentIndex];
+            }, 10000); // Change image every 10 seconds
+        }
+
+        // Function to handle touch events for interactive movement
+        function addTouchInteraction() {
+            const movingImages = document.querySelectorAll('.moving-image');
+            
+            movingImages.forEach(img => {
+                let isDragging = false;
+                let startX, startY, startLeft, startTop;
+                
+                img.addEventListener('touchstart', (e) => {
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                    startLeft = parseFloat(img.style.left);
+                    startTop = parseFloat(img.style.top);
+                    img.style.animationPlayState = 'paused';
+                });
+                
+                img.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    
+                    const touch = e.touches[0];
+                    const deltaX = touch.clientX - startX;
+                    const deltaY = touch.clientY - startY;
+                    
+                    const newLeft = startLeft + (deltaX / window.innerWidth) * 100;
+                    const newTop = startTop + (deltaY / window.innerHeight) * 100;
+                    
+                    // Keep images within bounds
+                    img.style.left = Math.max(0, Math.min(90, newLeft)) + '%';
+                    img.style.top = Math.max(0, Math.min(90, newTop)) + '%';
+                });
+                
+                img.addEventListener('touchend', () => {
+                    isDragging = false;
+                    img.style.animationPlayState = 'running';
+                });
+            });
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            addRandomMovement();
+            addTouchInteraction();
+            cycleBackgroundImage();
+            
+            // Update date every minute
+            setInterval(updateDate, 60000);
+            
+            // Re-randomize movement every 30 seconds
+            setInterval(addRandomMovement, 30000);
+        });
+
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                addRandomMovement();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
