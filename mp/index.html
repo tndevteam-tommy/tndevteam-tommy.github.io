@@ -97,15 +97,14 @@
             // Draw GIF onto canvas
             ctx.drawImage(gifImage, 0, 0, canvas.width, canvas.height);
             
-            // Generate timestamp in MM/DD/YYYY HH:MM AM/PM format
+            // Generate timestamp for next day at 2:00 AM
             const now = new Date();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate() + 1).padStart(2, '0');
-            const year = now.getFullYear();
-            const hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            const displayHours = hours % 12 || 12; // Convert to 12-hour format
+            const tomorrow = new Date(now);
+            tomorrow.setDate(now.getDate() + 1); // Properly handles month/year boundaries
+            
+            const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const day = String(tomorrow.getDate()).padStart(2, '0');
+            const year = tomorrow.getFullYear();
             const timestamp = `${month}/${day}/${year} 02:00 AM`;
             
             // Add timestamp overlay
@@ -114,26 +113,11 @@
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
             
-            // Measure text for background
-            const textMetrics = ctx.measureText(timestamp);
-            const textWidth = textMetrics.width;
-            const textHeight = fontSize;
-            const padding = 8;
-            
-            // Position at bottom center
+            // Position at very bottom center
             const x = canvas.width / 2;
-            const y = canvas.height - padding;
+            const y = canvas.height; // Position at the very bottom edge
             
-            // Draw background rectangle
-            const bgWidth = textWidth + (padding * 2);
-            const bgHeight = textHeight + (padding * 2);
-            const bgX = x - (bgWidth / 2);
-            const bgY = y - textHeight - padding;
-            
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-            ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
-            
-            // Draw timestamp text
+            // Draw timestamp text in white
             ctx.fillStyle = '#ffffff';
             ctx.fillText(timestamp, x, y);
             
@@ -145,11 +129,10 @@
             timestampedImage.src = canvas.toDataURL();
         }
         
-        // Add timestamp when GIF loads
+        // Automatically add timestamp when GIF loads
         gifImage.addEventListener('load', function() {
             console.log('GIF loaded successfully');
-            // Uncomment the line below to automatically add timestamp
-            // addTimestampOverlay();
+            addTimestampOverlay(); // Automatically add timestamp overlay
         });
 
         gifImage.addEventListener('error', function() {
