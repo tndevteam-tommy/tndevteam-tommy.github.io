@@ -110,6 +110,7 @@
                             <option value="Images">Images</option>
                             <option value="Archives">Archives</option>
                             <option value="PDFs">PDFs</option>
+                            <option value="Videos">Videos</option>
                         </select>
                         <button type="submit" class="search-button">
                             <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -185,10 +186,11 @@
                     'Music': 'intitle:"index of" "parent directory" <keyword> "mp3" -html -htm -php -asp -jsp',
                     'Images': 'intitle:"index of" "parent directory" <keyword> "jpg" "png" "gif" -html -htm -php -asp -jsp',
                     'Archives': 'intitle:"index of" "parent directory" <keyword> "zip" "rar" "7z" "tar" "gz" -html -htm -php -asp -jsp',
-                    'PDFs': 'intitle:"index of" "parent directory" <keyword> "pdf" -html -htm -php -asp -jsp'
+                    'PDFs': 'intitle:"index of" "parent directory" <keyword> "pdf" -html -htm -php -asp -jsp',
+                    'Videos': 'intitle:"index of" "parent directory" <keyword> "mp4" "webm" "mov" "wmv" "mpg" "avi" "mkv" "flv" -html -htm -php -asp -jsp'
                 };
                 let template = templates[searchType] || '<keyword>';
-                let query = template.replace('<keyword>', userInput);
+                let query = template.replaceAll('<keyword>', userInput);
                 let url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
                 window.open(url, '_blank');
             });
